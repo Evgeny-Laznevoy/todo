@@ -1,0 +1,14 @@
+@import "./variables.scss";
+
+* {
+    margin: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    outline: none;
+}
+
+body {
+    color: $main-color;
+    // background-color: $main-color;
+}
