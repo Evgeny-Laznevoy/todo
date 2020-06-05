@@ -1,15 +1,15 @@
 <template>
     <div class="todo__tasks">
-        <div class="tasks">
+        <div class="tasks" v-for="(item, i) in getTasksIdGroup" :key="`Group${i}`">
             <h1 class="tasks__title">
-                {{this.getNameGroup}}
+                {{item.name}}
                 <img 
                     :src="`${svg}`" 
                     alt="Edit__title" 
                     class="add-list__popup-close-btn"
                 >
             </h1>
-            <div class="tasks__items" v-for="(item, i) in getTasksIdGroup" :key="`buttonAddGroup${i}`">
+            <div class="tasks__items" v-for="(item, i) in item.task" :key="`buttonAddGroup${i}`">
                 <div class="tasks__items-row" :key="`buttonAddGroup${i}`">
                     <div class="checkbox">
                         <input type="checkbox" :id="`buttonAddGroup${i}`">

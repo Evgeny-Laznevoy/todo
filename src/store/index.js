@@ -48,21 +48,22 @@ export default new Vuex.Store({
           let group = {
             id: s.id,
             name: data.name,
-            active: data.active
+            active: data.active,
+            task: data.tasks 
           }  
           groups.push(group)
 
-          if (data.tasks){
-          data.tasks.forEach(t => {
-            let task = {
-              id: t.id,
-              text: t.text,
-              completed: t.completed,
-              idGroup: s.id
-            }
-            tasks.push(task)
-          })
-          }
+          // if (data.tasks){
+          // data.tasks.forEach(t => {
+          //   let task = {
+          //     id: t.id,
+          //     text: t.text,
+          //     completed: t.completed,
+          //     idGroup: s.id
+          //   }
+          //   tasks.push(task)
+          // })
+          // }
         });
         commit('SET_GROUPS', groups)
         commit('SET_TASKS', tasks)
@@ -118,6 +119,7 @@ export default new Vuex.Store({
   },
   getters:{
     getGroups(state){
+      console.log(state.groups);
       return state.groups;
     },
     lastGroupId(state){
@@ -126,7 +128,9 @@ export default new Vuex.Store({
     getProcessing:(state) => state.processing,
     getTasks:(state) => state.tasks,
     getTasksIdGroup(state){
-      return state.tasks.filter(item => item.idGroup == state.pushGroupId)
+      let group = state.groups.filter(item => item.id == state.pushGroupId);
+      console.log(group); 
+      return group
     },
     getNameGroup(state){
       let group = state.groups.find(item => item.id == state.pushGroupId);

@@ -4,7 +4,7 @@
             <i>
               <!-- <img :src="`../assets/img/${icon}.svg`"> -->
             </i>
-            <span>{{name}}</span>
+            <span>{{name}}{{quantity}}</span>
             <img 
                 class="list__remove-icon"
                 v-if="isRemovable"
@@ -71,6 +71,9 @@ import { mapActions, mapGetters } from 'vuex'
             itemGroup:{
                 type:Object
             },
+            quantity:{
+                
+            }
         }
     }
 </script>
@@ -85,6 +88,10 @@ import { mapActions, mapGetters } from 'vuex'
             padding: 10px 12px;  
             span {
                 flex: 1;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 160px;
+                white-space: nowrap;
             }
             &.active {
             background: #ffffff;

@@ -6,7 +6,7 @@
           <div class="task_groups">
             <List  v-for="(item, i) in getGroups" :key="`listItems${i}`"
             :icon="item.icon" :name="item.name" :active="item.active" 
-            :itemGroup="item"
+            :itemGroup="item" :quantity="item.task && item.task.length > 0 && ` (${item.task.length})`"
             isRemovable
             />
           </div> 
