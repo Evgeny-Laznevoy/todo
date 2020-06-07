@@ -49,7 +49,7 @@ export default new Vuex.Store({
             id: s.id,
             name: data.name,
             active: data.active,
-            task: data.tasks 
+            task: data.tasks ? data.tasks : tasks  
           }  
           groups.push(group)
 
@@ -66,7 +66,7 @@ export default new Vuex.Store({
           // }
         });
         commit('SET_GROUPS', groups)
-        commit('SET_TASKS', tasks)
+        // commit('SET_TASKS', tasks)
         console.log(this.state.groups);
         console.log(this.state.tasks);
       })

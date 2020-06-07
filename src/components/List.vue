@@ -1,6 +1,6 @@
 <template>
         <ul class="todo_list" @click.prevent="clickGroup(itemGroup)">
-          <li :class="{ active: active, isRemovable }">
+          <li :class="[ {active: active && active === isActive}, isRemovable ]">
             <i>
               <!-- <img :src="`../assets/img/${icon}.svg`"> -->
             </i>
@@ -25,16 +25,20 @@ import { mapActions, mapGetters } from 'vuex'
         data(){
             return{
                 removeSvg: removeSvg,
+                isActive: undefined
             }
         },
         methods:{
             clickGroup(group){
+
                 console.log('нажал на кнопку');
-                console.log(group);
-                console.log(this.getTasks);
+                console.log(group.id);
+                // console.log(this.getTasks);
+                console.log(this.isActive);
+                this.isActive = group.id;
                 if (this.isRemovable) {
-                    this.$bus.notify('idGroup', group);
-                    console.log(group.id);
+                    // this.$bus.notify('idGroup', group);
+                    // console.log(group.id);
                     this.$store.dispatch('GET_PUSHGROUPID', group.id);
                 } 
             },
@@ -63,7 +67,7 @@ import { mapActions, mapGetters } from 'vuex'
                 type:String
             },
             active:{
-                type:Boolean
+                type:String
             },
             isRemovable:{
                 type:Boolean
