@@ -5,8 +5,8 @@
       <span>Новая задача</span>
     </div>
     <div class="tasks__form-block" v-show="elVisible">
-      <input class="field" type="text" placeholder="Текст задачи">
-      <button class="button">Добавить задачу</button>
+      <input class="field" v-model="taskText" type="text" placeholder="Текст задачи">
+      <button class="button" @click.prevent="addNewTask">Добавить задачу</button>
       <button class="button button--gray" @click.prevent="openFormAdd(false)">Отмена</button>
     </div>
   </div>
@@ -14,18 +14,55 @@
 
 <script>
 import addSvg from "../../assets/img/add.svg";
+import { mapActions } from 'vuex';
 
 export default {
   name: "AddTask",
   data() {
     return {
       addSvg: addSvg,
-      elVisible: false
+      elVisible: false,
+      taskText: ""
     };
+  },
+  computed:{
+       ...mapActions(["ADD_TASK_IN_GROUP"])
   },
   methods:{
       openFormAdd(el){
+          console.log('в опенформ');
+          console.log(this.id); 
           this.elVisible = el
+      },
+      addNewTask(){
+            if (!this.taskText) {
+                alert('Нельзя добавить пустую задачу!');
+                return
+            }
+            let lastId = this.$store.getters.getLastTaskInGroup;
+
+            let id = String(++lastId);
+
+            console.log(id);
+            
+            let newTask = {
+              completed: false,
+              id: id,
+              text: this.taskText 
+            } 
+
+            console.log(newTask);
+            
+            this.ADD_TASK_IN_GROUP(this.id, newTask)
+            this.taskText = ""
+          },
+  },
+  props:{
+      id:{
+          type: String
+      },
+      visib:{
+          type: Boolean
       }
   }
 };

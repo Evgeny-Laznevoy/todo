@@ -34,6 +34,11 @@ export default new Vuex.Store({
       // console.log('внутри state');
       // console.log(payload);
       state.pushGroupId = payload
+    },
+    SET_TASK(state, groupId, task){
+      console.log(state);  
+      console.log(groupId);
+      console.log(task);
     }
   },
   actions: {
@@ -67,8 +72,8 @@ export default new Vuex.Store({
         });
         commit('SET_GROUPS', groups)
         // commit('SET_TASKS', tasks)
-        console.log(this.state.groups);
-        console.log(this.state.tasks);
+        // console.log(this.state.groups);
+        // console.log(this.state.tasks);
       })
       .catch(error => console.log(error))
     },
@@ -82,7 +87,7 @@ export default new Vuex.Store({
       Vue.$db.collection('todoGrous')
       .add(group)
       .then(() => {
-        commit('SET_GROUP',group)
+        commit('SET_GROUP', group)
         commit('SET_PROCESSING', false)
       })
       .catch((err) => {
@@ -101,7 +106,7 @@ export default new Vuex.Store({
       .delete()
       .then( function(){
         console.log('ЭЛЕМЕНТ УДАЛЕН');
-        commit('REMOVE_GROUP',groupId)
+        commit('REMOVE_GROUP', groupId)
       })
       .catch(function(error){
           console.log('error:', error);
@@ -114,12 +119,24 @@ export default new Vuex.Store({
       // })
       
     },
+    ADD_TASK_IN_GROUP({commit}, groupId, task){
+      Vue.$db.collection('todoGrous')
+      .doc(groupId)
+      .child('tasks')
+      .push(task)
+      .then(function() {
+        commit('SET_TASK', groupId, task)
+      })
+      .catch(function(error){
+        console.log('error:', error);
+    })
+    }
   },
   modules: {
   },
   getters:{
     getGroups(state){
-      console.log(state.groups);
+      // console.log(state.groups);
       return state.groups;
     },
     lastGroupId(state){
@@ -129,7 +146,7 @@ export default new Vuex.Store({
     getTasks:(state) => state.tasks,
     getTasksIdGroup(state){
       let group = state.groups.filter(item => item.id == state.pushGroupId);
-      console.log(group); 
+      // console.log(group); 
       return group
     },
     getNameGroup(state){
@@ -139,6 +156,10 @@ export default new Vuex.Store({
       } else
         return group.name
       // return state.groups.filter(item => item.id == state.pushGroupId).name
+    },
+    getLastTaskInGroup(state){
+      let group = state.groups.find(item => item.id == state.pushGroupId);
+      return group.task.length
     }
   }
 })

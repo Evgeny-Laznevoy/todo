@@ -45,8 +45,8 @@
       <div v-else>
         <h2>Задачи отсутствуют</h2>
       </div>
+      <AddTask :id="item && item.id" :visib="false"/>
     </div>
-    <AddTask/>
   </div>
 </template>
 
@@ -71,11 +71,15 @@ export default {
   data() {
     return {
         svg: svg,
+        idGroup: ''
     //   addSvg: addSvg,
       // title: this.getNameGroup.name
     };
   },
-  created() {
+  created(){
+      console.log('rerender');
+      console.log(this.getTasksIdGroup.id);
+      this.idGroup = this.getTasksIdGroup.id;
     // this.$bus.$on('idGroup', group => {
     //     this.title = group.id;
     //     console.log(this.getTasksIdGroup);
@@ -83,7 +87,7 @@ export default {
     // })
   },
   computed: {
-    ...mapGetters(["getTasksIdGroup", "getNameGroup"]),
+    ...mapGetters(["getTasksIdGroup"]),
   },
 };
 </script>
